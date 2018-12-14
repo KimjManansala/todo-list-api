@@ -86,9 +86,9 @@ app.post('/api/todos', (req, res, nextFn) => {
             console.log('This is life', jsonData)
             fs.writeFile('data.json', jsonData, (err) =>{
                 if (err) throw err
-                res.send({
-                    succes: 'true'
-                })
+                res.send(
+                    {    succes: 'true'}
+                )
             })
             
 

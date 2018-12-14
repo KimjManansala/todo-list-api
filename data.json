@@ -1,18 +1,1 @@
-{
-    "todoList": {
-        "userId": {
-            "1": {
-                "todo": ["program"],
-                "done": ["nothing"]
-            },
-            "2": {
-                "todo": ["walk"],
-                "done": ["nothing"]
-            },
-            "3": {
-                "todo": ["code", "hello"],
-                "done": []
-            }
-        }
-    }
-}
+{"todoList":{"userId":{"1":{"todo":["watch tv","code","eat"],"done":["study"]},"2":{"todo":["code","code","eat"],"done":["study"]},"3":{"todo":["code","code","code","code","code","code","code","code","code"],"done":["keep coding"]},"4":{"todo":["code","code","code","code","code","code","code","code","code"],"done":["keep coding"]}}}}
