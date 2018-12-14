@@ -8,6 +8,9 @@ app.use(bodyParser.urlencoded({
     extended: false
 }));
 
+app.use(express.static(__dirname+ '/public'))
+
+
 
 
 const getDataFile = (file) => {
@@ -136,6 +139,8 @@ app.delete('/api/todos/:id', (req, res, nextFn) => {
     })
 })
 
-app.listen(3000, function () {
-    console.log('Todo List API is now listening on port 3000...');
+
+
+app.listen(3000, () =>{ 
+    console.log('server is listening...')
 })
