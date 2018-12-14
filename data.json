@@ -1,0 +1,14 @@
+{
+    "todoList" : {
+        "userID" :{
+            "1" : {
+                "todo" : ["program"],
+                "done" : ["nothing"]
+            },
+            "2" : {
+                "todo" : ["walk"],
+                "done" : ["nothing"]
+            }
+        }
+    }
+}
