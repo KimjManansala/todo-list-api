@@ -119,9 +119,20 @@ app.put('/api/todos/:id', (req, res, nextFn) => {
 
 // DELETE /api/todos/:id
 app.delete('/api/todos/:id', (req, res, nextFn) => {
-    delete todoList[req.params.id]
-    res.json({
-        delete: 'true'
+
+    getDataFile('data.json')
+    .then((data) =>{
+        delete data.todoList.userId[req.params.id]
+        return data
+    })
+    .then((data)=>{
+        jsonData = JSON.stringify(data)
+        fs.writeFile('data.json', jsonData, (err) =>{
+            if (err) throw err
+            res.send({
+                delete: 'true'
+            })
+        })
     })
 })
 
