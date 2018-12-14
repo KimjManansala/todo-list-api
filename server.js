@@ -8,37 +8,15 @@ app.use(bodyParser.urlencoded({
     extended: false
 }));
 
-// let newData = ''
-// const callback = (err, data) => {
-//     if (err) throw err
-
-//     data = JSON.parse(data)
-//     newData = data
-// }
-
-// // Getting my data from a JSON file
-// const getData = () => {
-//     fs.readFile('data.json', callback)
-// }
-// getData()
-// console.log(newData)
-
-// console.log('~~~~~~~~~~~~~')
-// getData((res)=>{
-//     console.log('This is the res' , res)
-// })
-// console.log(getData((res) => {
-//     return res
-// }))
 
 
 const getDataFile = (file) => {
     return new Promise((resolve, reject) =>{
         fs.readFile('data.json', (err, data) =>{
             if(err) reject(err)
-            console.log('here',data, data.toString());
+
             data = JSON.parse(data.toString())
-            // resolve(data)
+            resolve(data)
         })
     })
 }
@@ -50,6 +28,7 @@ app.get('/api/todos', (req, res, nextFn) => {
     console.log('Someone called the GET /api/todos')
     getDataFile('data.json')
     .then((data) =>{
+        console.log(data.todoList)
         res.json(data.todoList)
     })
 })
@@ -69,9 +48,12 @@ app.get('/api/todos/:id', (req, res, nextFn) => {
         .then((data)=>{
             if(data.todoList.userId[id]){
                 res.json(data.todoList.userId[id])
-            }
-            else
-            res.send('failed')
+            }            
+        })
+        .catch((e) =>{
+            console.log(e)
+            res.status(404)
+
         })
     
 })
@@ -94,14 +76,18 @@ app.post('/api/todos', (req, res, nextFn) => {
                 else
                     ifNum = false
             }
-            console.log('This is data.json', data.todoList.userId)
+
             let todoList = data.todoList.userId
             todoList[id] = req.body
-            // jsonData = JSON.stringify(data)
-            console.log(jsonData)
-            res.send({
-                succes: 'true'
+            jsonData = JSON.stringify(data)
+            console.log('This is life', jsonData)
+            fs.writeFile('data.json', jsonData, (err) =>{
+                if (err) throw err
+                res.send({
+                    succes: 'true'
+                })
             })
+            
 
         })
     
@@ -111,15 +97,24 @@ app.post('/api/todos', (req, res, nextFn) => {
 // PUT /api/todos/:id
 app.put('/api/todos/:id', (req, res, nextFn) => {
     console.log('~~~~~~~~~~~~~~~~~~~~~~~')
-    console.log(req.params)
+
     let id = req.params.id
-    if (todoList[id]) {
-        todoList[id] = req.body
-    }
-    res.json({
-        succes: 'true'
+    getDataFile('data.json')
+    .then((data) =>{
+        if(data.todoList.userId[id])
+        data.todoList.userId[id] = req.body
+        
+        return data
     })
-    console.log(todoList)
+    .then((data)=>{
+        jsonData = JSON.stringify(data)
+        fs.writeFile('data.json', jsonData, (err) =>{
+            if (err) throw err
+            res.send({
+                succes: 'true'
+            })
+        })
+    })
 })
 
 // DELETE /api/todos/:id
